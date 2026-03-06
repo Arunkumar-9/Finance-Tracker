@@ -3,27 +3,210 @@
 <head>
   <title>Register - Finance Tracker</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {
+      transition: 0.3s;
+      background: #f4f6f9;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dark-mode {
+      background: #121212!important;
+      color: white!important;
+    }
+
+    .auth-card {
+      border: none;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,.1);
+      transition: 0.3s;
+    }
+
+    .auth-card:hover {
+      box-shadow: 0 15px 50px rgba(0,0,0,.15);
+      transform: translateY(-5px);
+    }
+
+    .dark-mode .auth-card {
+      background: #1e1e1e!important;
+      color: white;
+      box-shadow: 0 10px 40px rgba(0,0,0,.5);
+    }
+
+    .dark-mode .auth-card, .dark-mode .auth-card * {
+      color: white !important;
+    }
+
+    .dark-mode .text-muted {
+      color: #bbb !important;
+    }
+
+    .header-icon {
+      font-size: 3rem;
+      color: #667eea;
+      margin-bottom: 1rem;
+      animation: bounce 0.5s ease-in-out;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .form-control, .form-control:focus {
+      border-radius: 10px;
+      border: 2px solid #e0e0e0;
+      transition: 0.3s;
+    }
+
+    .form-control:focus {
+      border-color: #667eea!important;
+      box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+
+    .dark-mode .form-control {
+      background: #2a2a2a;
+      color: white;
+      border-color: #404040;
+    }
+    .dark-mode .form-control::placeholder {
+      color: #bbb;
+      opacity: 1;
+    }
+
+    .btn-register {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border: none;
+      border-radius: 10px;
+      padding: 10px 20px;
+      font-weight: 600;
+      color: white;
+      transition: 0.3s;
+    }
+
+    .btn-register:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+      color: white;
+    }
+
+    .auth-link {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .auth-link:hover {
+      color: #764ba2;
+      text-decoration: underline;
+    }
+
+    .message {
+      border-radius: 10px;
+      padding: 12px;
+      margin-top: 1rem;
+      animation: slideIn 0.3s ease-in;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .message.error {
+      background: #fee;
+      color: #c33;
+      border-left: 4px solid #c33;
+    }
+
+    .message.success {
+      background: #efe;
+      color: #3c3;
+      border-left: 4px solid #3c3;
+    }
+
+    .dark-mode .message.error {
+      background: #3a1f1f;
+      color: #ff6b6b;
+      border-left-color: #ff6b6b;
+    }
+
+    .dark-mode .message.success {
+      background: #1f3a1f;
+      color: #51cf66;
+      border-left-color: #51cf66;
+    }
+
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: white;
+      border: none;
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      box-shadow: 0 3px 10px rgba(0,0,0,.1);
+      cursor: pointer;
+      transition: 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.1);
+    }
+
+    .dark-mode .theme-toggle {
+      background: #2a2a2a;
+      color: white;
+    }
+  </style>
 </head>
 
-<body class="bg-light">
+<body id="body" class="bg-light">
 
-<div class="container mt-5">
-  <div class="card p-4 shadow col-md-6 mx-auto">
+<button class="theme-toggle" onclick="toggleDarkMode()" title="Toggle Theme">
+  <i id="themeIcon" class="bi bi-sun"></i>
+</button>
 
-    <h3 class="text-center mb-4">📝 Create Account</h3>
+<div class="container">
+  <div class="card auth-card p-5 col-md-5 mx-auto">
 
-    <input type="text" id="name" class="form-control mb-3" placeholder="Full Name">
-    <input type="email" id="email" class="form-control mb-3" placeholder="Email">
-    <input type="password" id="password" class="form-control mb-3" placeholder="Password">
+    <div class="text-center">
+      <div class="header-icon">
+        <i class="bi bi-person-plus"></i>
+      </div>
+      <h2 class="mb-2">Create Account</h2>
+      <p class="text-muted mb-4">Start managing your finances today</p>
+    </div>
 
-    <button class="btn btn-success w-100 mb-3" onclick="register()">Register</button>
+    <input type="text" id="name" class="form-control mb-3" placeholder="Full Name" title="Your full name">
+    <input type="email" id="email" class="form-control mb-3" placeholder="Email" title="Email address">
+    <div class="input-group mb-4">
+      <input type="password" id="password" class="form-control" placeholder="Password" title="Create a strong password">
+      <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('password')">
+        <i id="passwordIcon" class="bi bi-eye"></i>
+      </button>
+    </div>
+
+    <button class="btn btn-register w-100 mb-3" onclick="register()">
+      <i class="bi bi-check-circle"></i> Create Account
+    </button>
+
+    <hr class="my-4">
 
     <p class="text-center">
-      Already have an account?
-      <a href="http://127.0.0.1:5500/login.html">Login</a>
+      Already have an account? <a href="login.html" class="auth-link">Login here</a>
     </p>
 
-    <p id="message" class="text-center text-danger"></p>
+    <div id="message" class="text-center"></div>
 
   </div>
 </div>
@@ -35,9 +218,23 @@ async function register() {
   const name = document.getElementById("name").value.trim();
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value.trim();
+  const messageEl = document.getElementById("message");
 
   if (!name || !email || !password) {
-    document.getElementById("message").innerText = "Please fill all fields";
+    messageEl.innerText = "Please fill all fields";
+    messageEl.className = "message error";
+    return;
+  }
+
+  if (!isValidEmail(email)) {
+    messageEl.innerText = "Please enter a valid email address";
+    messageEl.className = "message error";
+    return;
+  }
+
+  if (password.length < 6) {
+    messageEl.innerText = "Password must be at least 6 characters";
+    messageEl.className = "message error";
     return;
   }
 
@@ -50,19 +247,63 @@ async function register() {
 
     const data = await res.json();
 
-    document.getElementById("message").innerText = data.message;
-
     if (res.ok) {
+      messageEl.innerText = "Account created successfully! Redirecting...";
+      messageEl.className = "message success";
       setTimeout(() => {
-        window.location.href = "http://127.0.0.1:5500/login.html";
+        window.location.href = "login.html";
       }, 1000);
+    } else {
+      messageEl.innerText = data.message || "Registration failed";
+      messageEl.className = "message error";
     }
 
   } catch (error) {
-    document.getElementById("message").innerText = "Server error. Try again.";
+    messageEl.innerText = "Server error. Try again.";
+    messageEl.className = "message error";
     console.error("Register error:", error);
   }
 }
+
+function isValidEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+function togglePasswordVisibility(inputId) {
+  const input = document.getElementById(inputId);
+  const icon = document.getElementById(inputId + 'Icon');
+  if (input.type === 'password') {
+    input.type = 'text';
+    icon.className = 'bi bi-eye-slash';
+  } else {
+    input.type = 'password';
+    icon.className = 'bi bi-eye';
+  }
+}
+
+function toggleDarkMode() {
+  const body = document.getElementById("body");
+  const themeIcon = document.getElementById("themeIcon");
+  
+  body.classList.toggle("dark-mode");
+  
+  if (body.classList.contains("dark-mode")) {
+    themeIcon.className = "bi bi-moon";
+    localStorage.setItem("theme", "dark");
+  } else {
+    themeIcon.className = "bi bi-sun";
+    localStorage.setItem("theme", "light");
+  }
+}
+
+window.onload = function() {
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme === "dark") {
+    document.getElementById("body").classList.add("dark-mode");
+    document.getElementById("themeIcon").className = "bi bi-moon";
+  }
+};
 </script>
 
 </body>
